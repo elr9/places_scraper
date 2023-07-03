@@ -10,7 +10,7 @@ def get_place_details(place_id, fields=None):
     url = 'https://maps.googleapis.com/maps/api/place/details/json'
     params = {
         'place_id': place_id,
-        'key': 'AIzaSyAFfZJ9eGkYkS8nh5njzIx6qZpBB9aTfXo',
+        'key': 'YOUR_API_KEY',
     }
     if fields:
         params['fields'] = ','.join(fields)
@@ -25,7 +25,7 @@ def search_places(location, radius, place_type, max_results=100):
         'location': location,
         'radius': radius,
         'type': place_type,
-        'key': 'YOUR_API_KEY'
+        'key': 'AIzaSyAFfZJ9eGkYkS8nh5njzIx6qZpBB9aTfXo'
     }
     while len(places) < max_results:
         response = requests.get(url, params=params)
@@ -59,16 +59,18 @@ if st.button('Get Places'):
     # Convert the details to a DataFrame
     df_details = pd.DataFrame(details)
 
-    # Convert the DataFrame to a CSV file in memory
-    csv_io = io.StringIO()
-    df_details.to_csv(csv_io, index=False)
-    csv_io.seek(0)
-    csv_bytes = csv_io.read().encode()
+    # Check if the DataFrame is not empty
+    if not df_details.empty:
+        # Convert the DataFrame to a CSV string
+        csv = df_details.to_csv(index=False)
+        csv_bytes = csv.encode()
 
-    # Create a download button for the CSV file
-    st.download_button(
-        label="Download CSV file",
-        data=csv_bytes,
-        file_name='place_details.csv',
-        mime='text/csv',
-    )
+        # Create a download button for the CSV file
+        st.download_button(
+            label="Download CSV file",
+            data=csv_bytes,
+            file_name='place_details.csv',
+            mime='text/csv',
+        )
+    else:
+        st.write('No data to download.')
