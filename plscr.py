@@ -53,6 +53,7 @@ if st.button('Get Places'):
     details = []
     for place in places:
         detail = get_place_details(place['place_id'], ['name', 'formatted_address', 'formatted_phone_number', 'website'])
+        st.write(detail)  # Print out the detail
         if detail and 'result' in detail:
             details.append(detail['result'])
 
