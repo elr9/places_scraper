@@ -9,7 +9,7 @@ def get_place_details(place_id, fields=None):
     url = 'https://maps.googleapis.com/maps/api/place/details/json'
     params = {
         'place_id': place_id,
-        'key': 'AIzaSyAFfZJ9eGkYkS8nh5njzIx6qZpBB9aTfXo',
+        'key': 'YOUR_API_KEY',
     }
     if fields:
         params['fields'] = ','.join(fields)
@@ -24,7 +24,7 @@ def search_places(location, radius, place_type, max_results=100):
         'location': location,
         'radius': radius,
         'type': place_type,
-        'key': 'YOUR_API_KEY'
+        'key': 'AIzaSyAFfZJ9eGkYkS8nh5njzIx6qZpBB9aTfXo'
     }
     while len(places) < max_results:
         response = requests.get(url, params=params)
@@ -51,9 +51,9 @@ if st.button('Get Places'):
     # Get the details for each place
     details = []
     for place in places:
-        detail = get_place_details(place['place_id'])
-        if detail:
-            details.append(detail)
+        detail = get_place_details(place['place_id'], ['name', 'formatted_address', 'formatted_phone_number', 'website'])
+        if detail and 'result' in detail:
+            details.append(detail['result'])
 
     # Convert the details to a DataFrame
     df_details = pd.DataFrame(details)
