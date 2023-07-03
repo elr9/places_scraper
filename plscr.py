@@ -25,7 +25,7 @@ def search_places(location, radius, place_type, max_results=100):
         'location': location,
         'radius': radius,
         'type': place_type,
-        'key': 'AIzaSyAFfZJ9eGkYkS8nh5njzIx6qZpBB9aTfXo'
+        'key': 'YOUR_API_KEY'
     }
     while len(places) < max_results:
         response = requests.get(url, params=params)
@@ -59,9 +59,11 @@ if st.button('Get Places'):
     # Convert the details to a DataFrame
     df_details = pd.DataFrame(details)
 
-    # Convert the DataFrame to a CSV string
-    csv = df_details.to_csv(index=False)
-    csv_bytes = csv.encode()
+    # Convert the DataFrame to a CSV file in memory
+    csv_io = io.StringIO()
+    df_details.to_csv(csv_io, index=False)
+    csv_io.seek(0)
+    csv_bytes = csv_io.read().encode()
 
     # Create a download button for the CSV file
     st.download_button(
