@@ -58,10 +58,13 @@ if st.button('Get Places'):
     # Convert the details to a DataFrame
     df_details = pd.DataFrame(details)
 
-    # Save the DataFrame to a CSV file
-    csv_file = 'place_details.csv'
-    csv_path = os.path.join(st.server.server_util._get_static_dir(), csv_file)
-    df_details.to_csv(csv_path, index=False)
+    # Convert the DataFrame to a CSV file (as a string)
+    csv = df_details.to_csv(index=False)
 
-    # Provide a link to download the CSV file
-    st.markdown(f'[Download CSV file]({csv_path})')
+    # Create a download button for the CSV file
+    st.download_button(
+        label="Download CSV file",
+        data=csv,
+        file_name='place_details.csv',
+        mime='text/csv',
+    )
