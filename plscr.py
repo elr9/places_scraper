@@ -8,7 +8,7 @@ def get_place_details(place_id, fields=None):
     url = 'https://maps.googleapis.com/maps/api/place/details/json'
     params = {
         'place_id': place_id,
-        'key': 'YOUR_API_KEY',
+        'key': 'AIzaSyAFfZJ9eGkYkS8nh5njzIx6qZpBB9aTfXo',
     }
     if fields:
         params['fields'] = ','.join(fields)
