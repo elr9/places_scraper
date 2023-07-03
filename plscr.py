@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 import time
 import os
+import io
 
 # Function to get place details
 def get_place_details(place_id, fields=None):
@@ -58,13 +59,14 @@ if st.button('Get Places'):
     # Convert the details to a DataFrame
     df_details = pd.DataFrame(details)
 
-    # Convert the DataFrame to a CSV file (as a string)
+    # Convert the DataFrame to a CSV string
     csv = df_details.to_csv(index=False)
+    csv_bytes = csv.encode()
 
     # Create a download button for the CSV file
     st.download_button(
         label="Download CSV file",
-        data=csv,
+        data=csv_bytes,
         file_name='place_details.csv',
         mime='text/csv',
     )
