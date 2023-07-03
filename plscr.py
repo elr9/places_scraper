@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 import time
+import os
 
 # Function to get place details
 def get_place_details(place_id, fields=None):
@@ -58,6 +59,9 @@ if st.button('Get Places'):
     df_details = pd.DataFrame(details)
 
     # Save the DataFrame to a CSV file
-    df_details.to_csv('place_details.csv', index=False)
+    csv_file = 'place_details.csv'
+    csv_path = os.path.join(st.server.server_util._get_static_dir(), csv_file)
+    df_details.to_csv(csv_path, index=False)
 
-    st.write('The place details have been saved to place_details.csv.')
+    # Provide a link to download the CSV file
+    st.markdown(f'[Download CSV file]({csv_path})')
